@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Para mi amor mi vida preciosa 💖</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #333;
+    }
+    .card {
+      background: #fff;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      max-width: 600px;
+      width: 90%;
+      animation: fadeIn 1s ease;
+    }
+    h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+      color: #e91e63;
+    }
+    p {
+      font-size: 1.2em;
+    }
+    #idioma {
+      font-size: 1.4em;
+      margin-top: 20px;
+      font-weight: bold;
+      color: #444;
+    }
+    #instruccion {
+      margin-top: 25px;
+      font-size: 0.9em;
+      color: #777;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+
+    <h1 id="titulo">¿Sabías que...?</h1>
+    <p id="idioma">Presiona ENTER o ESPACIO para empezar 💖</p>
+<button id="reiniciar" style="
+  margin-top: 20px; 
+  padding: 10px 20px; 
+  font-size: 1em; 
+  border: none; 
+  border-radius: 10px; 
+  background: #e91e63; 
+  color: white; 
+  cursor: pointer; 
+  display: none;">
+  Volver al inicio
+</button>
+    <p id="instruccion">(Cada vez que presiones avanzará un idioma)</p>
+  </div>
+
+  <script>
+    let index = -1;
+    const idiomas = [
+     {lang:"Afrikaans", text:"Ek het jou lief", pron:"ek het yau leif"},
+      {lang:"Albanés", text:"Të dua", pron:"tuh doon-ah"},
+      {lang:"Amárico", text:"እወድሻለሁ (iwedishalehu)", pron:"i-weh-dee-sha-lehu"},
+      {lang:"Árabe", text:"أحبك (uhibbuk/uhibbuki)", pron:"u-hib-buk / u-hib-bu-ki"},
+      {lang:"Armenio", text:"Ես քեզ սիրում եմ (Yes k’ez sirum yem)", pron:"yes kez see-room yem"},
+      {lang:"Aymara", text:"Munsmawa / Munasña", pron:"muns-ma-wa"},
+      {lang:"Azerí", text:"Mən səni sevirəm", pron:"men seh-nee seh-vee-rehm"},
+      {lang:"Bask (Euskera)", text:"Maite zaitut", pron:"mai-te zai-tut"},
+      {lang:"Belaruso", text:"Я цябе кахаю (Ja ciabie kahaju)", pron:"ya tya-bye ka-ha-yu"},
+      {lang:"Bengalí", text:"আমি তোমায় ভালোবাসি (Ami tomake bhalobashi)", pron:"a-mi to-ma-ke bha-lo-ba-shi"},
+      {lang:"Bosnio", text:"Volim te", pron:"vo-leem te"},
+      {lang:"Búlgaro", text:"Обичам те (Obicham te)", pron:"o-bi-cham te"},
+      {lang:"Birmano (Burmese)", text:"မင်းကိုချစ်တယ် (Main ko chit tal)", pron:"min ko chit tel"},
+      {lang:"Cantonés", text:"我愛你 (Ngo oi nei)", pron:"ngo oy nei"},
+      {lang:"Catalán", text:"T'estimo", pron:"tuh-stee-mo"},
+      {lang:"Cebuano", text:"Gihigugma tika", pron:"gi-hi-gug-ma tee-ka"},
+      {lang:"Chichewa", text:"Ndimakukondani", pron:"ndi-ma-ku-kon-da-ni"},
+      {lang:"Corso", text:"Ti tengu caru", pron:"tee teng-gu ca-roo"},
+      {lang:"Croata", text:"Volim te", pron:"vo-leem te"},
+      {lang:"Checo", text:"Miluji tě", pron:"mee-loo-yi tye"},
+      {lang:"Danés", text:"Jeg elsker dig", pron:"yai el-sker dai"},
+      {lang:"Neerlandés (Holandés)", text:"Ik houd van je / Ik hou van jou", pron:"ik how van yuh"},
+      {lang:"Inglés", text:"I love you", pron:"ai luv yu"},
+      {lang:"Estonio", text:"Ma armastan sind", pron:"ma ar-ma-stan sind"},
+      {lang:"Farsi / Persa", text:"دوستت دارم (Dooset Daram)", pron:"doo-set da-ram"},
+      {lang:"Fiyiano", text:"Au domoni iko", pron:"au do-mo-ni ee-ko"},
+      {lang:"Filipino / Tagalog", text:"Mahal kita", pron:"ma-hal kee-ta"},
+      {lang:"Finlandés", text:"Minä rakastan sinua", pron:"mee-nah ra-kas-tan see-nua"},
+      {lang:"Francés", text:"Je t'aime", pron:"zhuh tem"},
+      {lang:"Gaélico (Irlandés)", text:"Is breá liom tú", pron:"iss bra la-hum tu"},
+      {lang:"Gallego", text:"Quérote / Quérote", pron:"keh-ro-te"},
+      {lang:"Georgiano", text:"მიყვარხარ (Miq’varkhar)", pron:"meeq-var-khar"},
+      {lang:"Alemán", text:"Ich liebe dich", pron:"ikh lee-buh dihkh"},
+      {lang:"Griego", text:"Σε αγαπώ (Se agapó)", pron:"seh ah-ga-po"},
+      {lang:"Guaraní", text:"Rohayhu", pron:"ro-hai-yu"},
+      {lang:"Criollo haitiano", text:"Mwen renmen ou", pron:"mwen ren-men oo"},
+      {lang:"Hawaiano", text:"Aloha wau iā ʻoe", pron:"ah-lo-ha vau ee-ah o-e"},
+      {lang:"Hebreo", text:"אני אוהב אותך / אני אוהבת אותך", pron:"a-ni o-hev otakh / a-ni o-he-vet o-tach"},
+      {lang:"Hindi", text:"मैं तुमसे प्यार करता हूँ / करती हूँ", pron:"main tum-se pyaar kar-ta / kar-tee hoon"},
+      {lang:"Hmong", text:"Kuv hlub koj", pron:"koo hloob koi"},
+      {lang:"Húngaro", text:"Szeretlek", pron:"seh-ret-lek"},
+      {lang:"Islandés", text:"Ég elska þig", pron:"yegh el-ska thig"},
+      {lang:"Igbo", text:"A hụrụ m gị n'anya", pron:"ah hoo-roo m gee n-an-ya"},
+      {lang:"Ilocano", text:"Ay-ayaten ka", pron:"ay-aya-ten ka"},
+      {lang:"Indonesio", text:"Aku cinta kamu", pron:"a-ku cheen-ta ka-mu"},
+      {lang:"Italiano", text:"Ti amo", pron:"tee ah-mo"},
+      {lang:"Japonés", text:"愛してる (Aishiteru)", pron:"ai-shee-teh-roo"},
+      {lang:"Kazajo", text:"Мен сені жақсы көремін", pron:"men seh-nee yahk-sih ko-reh-min"},
+      {lang:"Jemer (Khmer)", text:"ខ្ញុំស្រលាញ់អ្នក", pron:"khnyom sra-lan anak"},
+      {lang:"Kinyarwanda", text:"Ndagukunda", pron:"nda-gu-kun-da"},
+      {lang:"Coreano", text:"사랑해 (Saranghae)", pron:"sa-rang-hae"},
+      {lang:"Kurdo", text:"Ez hej te dikim", pron:"ez hej te dee-keem"},
+      {lang:"Lao", text:"ຂ້ອຍຮັກເຈົ້າ", pron:"khon-y hak chao"},
+      {lang:"Latín", text:"Te amo", pron:"te ah-mo"},
+      {lang:"Letón", text:"Es tevi mīlu", pron:"es te-vee mee-loo"},
+      {lang:"Lituano", text:"Aš tave myliu", pron:"ash ta-ve mee-lyu"},
+      {lang:"Luxemburgués", text:"Ech hun dech gär", pron:"esh hoon dech gair"},
+      {lang:"Malgache", text:"Tiako ianao", pron:"tee-a-koo ya-noo"},
+      {lang:"Malayo", text:"Saya cinta padamu", pron:"sa-ya chin-ta pa-da-mu"},
+      {lang:"Maltés", text:"Inħobbok", pron:"in-hob-bok"},
+      {lang:"Mandarín (Chino)", text:"我爱你 (Wǒ ài nǐ)", pron:"woh ai nee"},
+      {lang:"Maorí", text:"Aroha aku ki a koe", pron:"ah-ro-ha ah-koo ki a ko-eh"},
+      {lang:"Mongol", text:"Би чамд хайртай", pron:"bi chamd khair-tai"},
+      {lang:"Nahuatl", text:"Nimitztlazohtla", pron:"ni-mits-tla-zoht-la"},
+      {lang:"Navajo", text:"Ayóó anííníshní", pron:"ah-yo an-een-ee-shni"},
+      {lang:"Nepalí", text:"म तिमीलाई माया गर्छु", pron:"ma ti-mee-lie ma-ya gar-choo"},
+      {lang:"Noruego", text:"Jeg elsker deg", pron:"yai el-sker dai"},
+      {lang:"Pashto", text:"زه ستا سره مینه لرم", pron:"za sta sa-ra mee-na la-ram"},
+      {lang:"Polaco", text:"Kocham cię", pron:"ko-ham chyeh"},
+      {lang:"Portugués", text:"Eu te amo", pron:"eh-oo chee ah-mo"},
+      {lang:"Punjabi", text:"ਮੈਂ ਤੈਨੂੰ ਪਿਆਰ ਕਰਦਾ/ਕਰਦੀ ਹਾਂ", pron:"main tai-noo pyaar kar-da / kar-dee han"},
+      {lang:"Oromo", text:"Sin jaalladha", pron:"sin jaal-la-da"},
+      {lang:"Quechua", text:"Kuyayki / Kuyay", pron:"koo-yai-kee"},
+      {lang:"Rumano", text:"Te iubesc", pron:"te yu-besk"},
+      {lang:"Ruso", text:"Я тебя люблю", pron:"ya te-bya lyu-blyu"},
+      {lang:"Samoano", text:"Oute alofa ia te oe", pron:"oote a-lo-fa ee-a te o-e"},
+      {lang:"Sepedi (Pedi)", text:"Kea go rata", pron:"ke-a go ra-ta"},
+      {lang:"Serbio", text:"Волим те", pron:"vo-leem te"},
+      {lang:"Sesotho", text:"Kea u rata", pron:"ke-a u ra-ta"},
+      {lang:"Eslovaco", text:"Ľúbim ťa", pron:"lyoo-beem tya"},
+      {lang:"Esloveno", text:"Ljubim te", pron:"lyoo-beem te"},
+      {lang:"Somalí", text:"Waan ku jeclahay", pron:"waan ku jech-la-hay"},
+      {lang:"Español", text:"Te amo", pron:"teh AH-moh"},
+      {lang:"Swahili", text:"Nakupenda", pron:"na-ku-pen-da"},
+      {lang:"Sueco", text:"Jag älskar dig", pron:"yai el-skar dey"},
+      {lang:"Tagalo", text:"Mahal kita", pron:"ma-hal kee-ta"},
+      {lang:"Tahitiano", text:"Ua here vau ia oe", pron:"oo-ah heh-re vau ee-ah oh-eh"},
+      {lang:"Taiwanés (Min Nan)", text:"我愛你 (Góa ài lí)", pron:"go-a ai li"},
+      {lang:"Tamil", text:"நான் உன்னை நேசிக்கிறேன்", pron:"naan un-nai ne-si-kki-ren"},
+      {lang:"Tailandés", text:"ฉันรักคุณ", pron:"chan rak khoon"},
+      {lang:"Tibetano", text:"ང་ཁྱོད་ལ་དགའ།", pron:"nga khyod la ga"},
+      {lang:"Tongano", text:"Oku ou 'ofa atu", pron:"o-ku o o fa a-tu"},
+      {lang:"Tsonga", text:"Ndza ku rhandza", pron:"ndza ku ran-da"},
+      {lang:"Turco", text:"Seni seviyorum", pron:"se-nee seh-vee-yo-room"},
+      {lang:"Ucraniano", text:"Я тебе люблю", pron:"ya te-be lyu-blyu"},
+      {lang:"Uzbeko", text:"Men seni sevaman", pron:"men seh-nee seh-va-man"},
+      {lang:"Vietnamita", text:"Anh yêu em / Em yêu anh", pron:"anh yoo em / em yoo anh"},
+      {lang:"Galés (Welsh)", text:"Rwy'n dy garu di", pron:"roo-in duh ga-roo dee"},
+      {lang:"Xhosa", text:"Ndiyakuthanda", pron:"ndi-ya-ku-than-da"},
+      {lang:"Yidis", text:"איך האָב דיך ליב", pron:"ikh hob dikh lib"},
+      {lang:"Zulu", text:"Ngiyakuthanda", pron:"ngee-ya-ku-than-da"},
+      {lang:"Esperanto", text:"Mi amas vin", pron:"mi ah-mas vin"},
+      {lang:"Klingon (Star Trek)", text:"bangwI' SoH", pron:"bang-wee soh"},
+      {lang:"Quenya (Elvish)", text:"Melinyel", pron:"me-li-nyel"},
+      {lang:"Sindarin (Elvish)", text:"Gi melin", pron:"gi me-lin"},
+      {lang:"Na'vi (Avatar)", text:"Nga yawne lu oer", pron:"nga yaw-ne loo oer"},
+      {lang:"Dothraki (GoT)", text:"Anha zhilak yera", pron:"an-ha zhi-lak ye-ra"}
+    ];
+
+    function mostrarIdioma() {
+      index++;
+   if (index >= idiomas.length) {
+  document.getElementById("idioma").innerHTML = 
+    "💖 Ya viste todos los idiomas 💖<br><br>" +
+    "Te amo linda, eres una parte muy especial en mi vida, gracias por todo lo que haces por mi, " +
+    "llenas de felicidad mi vida, mereces más de todo lo que tengo y tendré, " +
+    "mereces tener todo para ti, mereces una vida feliz, tranquila, llena de salud y vida, " +
+    "tal vez no pueda darte todo eso, pero haré mi mayor esfuerzo para seguir manteniéndote contigo <3 Te amo linda";
+  
+  const boton = document.getElementById("reiniciar");
+  boton.style.display = "inline-block"; // Mostrar el botón
+  boton.onclick = () => {                // Al hacer clic, reinicia
+    index = -1;
+    document.getElementById("idioma").innerText = "Presiona ENTER o ESPACIO para empezar 💖";
+    boton.style.display = "none";
+  };
+
+  return;
+}
+
+
+      const actual = idiomas[index];
+      document.getElementById("idioma").innerHTML =
+        `En <span style="color:#e91e63">${actual.lang}</span> se escribe <strong>"${actual.text}"</strong> y se pronuncia <em>${actual.pron}</em>`;
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        mostrarIdioma();
+      }
+    });
+  </script>
+</body>
+</html>
